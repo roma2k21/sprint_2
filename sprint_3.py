@@ -11,7 +11,7 @@ class OnlineSalesRegisterCollector:
 
     @property
     def number_items(self):
-        return self.number_items
+        return self.__number_items
 
     def add_item_to_cheque(self, name):
         if len(name) == 0 or len(name) > 40:
@@ -32,7 +32,8 @@ class OnlineSalesRegisterCollector:
     def check_amount(self):
         total = []
         for value in self.__item_price.values():
-            total.append(value)
+            if value in self.__name_items:
+                total.append(value)
         if len(total) > 10:
             return sum(total) * 0.9
         return total
@@ -41,9 +42,10 @@ class OnlineSalesRegisterCollector:
         twenty_percent_tax = []
         total = []
         for key, value in self.__tax_rate.items():
-            if value == 20:
-                twenty_percent_tax.append(key)
-                total.append(value)
+            if key in self.__name_items:
+                if value == 20:
+                    twenty_percent_tax.append(key)
+                    total.append(value)
         if len(total) > 10:
             return sum(total) * 0.2 * 0.9
         else:
@@ -53,22 +55,48 @@ class OnlineSalesRegisterCollector:
         ten_percent_tax = []
         total = []
         for key, value in self.__tax_rate.items():
-            if value == 20:
-                ten_percent_tax.append(key)
-                total.append(value)
+            if key in self.__name_items:
+                if value == 20:
+                    ten_percent_tax.append(key)
+                    total.append(value)
         if len(total) > 10:
             return sum(total) * 0.1 * 0.9
         else:
             return sum(total) * 0.1
 
     def total_tax(self):
-        return OnlineSalesRegisterCollector.ten_percent_tax_calculation(self) + OnlineSalesRegisterCollector.twenty_percent_tax_calculation(self)
+        return self.ten_percent_tax_calculation() + self.twenty_percent_tax_calculation()
 
     @staticmethod
     def get_telephone_number(telephone_number):
-        if int(telephone_number) % 2 != 0:
+        if type(telephone_number) not in [int, str]:
             raise ValueError('Необходимо ввести цифры')
-        elif len(telephone_number) > 10:
+
+        if type(telephone_number) == int:
+            telephone_number = str(telephone_number)
+
+        if not telephone_number.isdigit():
+            raise ValueError('Необходимо ввести цифры')
+
+        if len(telephone_number) != 10:
             raise ValueError('Необходимо ввести 10 цифр после "+7"')
-        else:
-            return f'+7{telephone_number}'
+
+        return f'+7{telephone_number}'
+
+
+new_cheque = OnlineSalesRegisterCollector()
+new_cheque.add_item_to_cheque('чипсы')
+new_cheque.add_item_to_cheque('кола')
+new_cheque.add_item_to_cheque('печенье')
+new_cheque.add_item_to_cheque('молоко')
+new_cheque.add_item_to_cheque('кефир')
+print(new_cheque.name_items)
+print(new_cheque.number_items)
+print(new_cheque.check_amount())
+print(new_cheque.ten_percent_tax_calculation())
+print(new_cheque.twenty_percent_tax_calculation())
+print(new_cheque.total_tax())
+print(new_cheque.get_telephone_number('1234567890'))
+new_cheque.delete_item_from_check('чипсы')
+print(new_cheque.name_items)
+print(new_cheque.number_items)
