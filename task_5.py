@@ -39,8 +39,8 @@ class Hockey(Results):
 
 football_team = Football(2, 2, 2)
 hockey_team = Hockey(2, 2, 2)
-for i in (football_team, hockey_team):
-    print(i.number_of_wins())
-    print(i.number_of_draws())
-    print(i.number_of_losses())
-    print(i.total_points())
+for team in (football_team, hockey_team):
+    print(team.number_of_wins())
+    print(team.number_of_draws())
+    print(team.number_of_losses())
+    print(team.total_points())

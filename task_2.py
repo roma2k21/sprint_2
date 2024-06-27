@@ -1,4 +1,3 @@
-#Задача №2
 class Movies:
     def __init__(self):
         self.movies = []
@@ -17,6 +16,7 @@ class Drama(Movies):
     def add_movie(self, movie):
         self.movies.append(movie)
         return f"Драмы: {self.movies}"
+
 
 comedy = Comedy()
 print(comedy.add_movie('Большой куш'))

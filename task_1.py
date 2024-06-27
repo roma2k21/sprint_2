@@ -6,8 +6,12 @@ class Case:
         self.expected_result = expected_result
 
     def print_test_case_info(self):
-        print(f"ID тест-кейса: {self.test_case_id}" f"\nНазвание: {self.name}" f"\nОписание шага:"
-              f"{self.step_description}" f"\nОжидаемый результат:{self.expected_result}")
+        return (f"ID тест-кейса: {self.test_case_id}" 
+                f"\nНазвание: {self.name}" 
+                f"\nОписание шага:"
+                f"{self.step_description}" 
+                f"\nОжидаемый результат:{self.expected_result}")
+
 
 class ExtendedCase(Case):
     def __init__(self, test_case_id, name, step_description, expected_result, precondition, environment):
@@ -16,9 +20,9 @@ class ExtendedCase(Case):
         self.environment = environment
 
     def print_test_case_info(self):
-        print(f"ID тест-кейса: {self.test_case_id}" f"\nНазвание: {self.name}" f"\nОписание шага:"
-              f"{self.step_description}" f"\nОжидаемый результат:{self.expected_result}"
-              f"\nПредусловие: {self.precondition}" f"\nОкружение: {self.environment}")
+        parent_info = Case.print_test_case_info(self)
+        print(f"{parent_info}\n" f"\nПредусловие: {self.precondition}" f"\nОкружение: {self.environment}")
+
 
 case = ExtendedCase('1', 'Наличие кнопки Принять',
                     '1. Открыть вкладку приёма документов 2. Проверить наличие кнопки ',
